@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-ink: #08080d;
+  --color-ink-soft: #0e0e16;
+  --color-ivory: #f4efe6;
+  --color-mist: #a8a398;
+  --color-gold: #c9a96a;
+  --color-gold-bright: #e3c98f;
+  --color-line: rgb(201 169 106 / 0.22);
+  --color-danger: #e08a82;
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-ivory);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+/* Atmosphere: soft indigo/gold light over deep ink, with a vignette */
+.atmosphere {
+  background:
+    radial-gradient(60rem 38rem at 50% -8%, rgb(90 96 199 / 0.2), transparent 70%),
+    radial-gradient(40rem 28rem at 85% 105%, rgb(201 169 106 / 0.1), transparent 70%),
+    radial-gradient(40rem 28rem at 8% 95%, rgb(81 69 184 / 0.12), transparent 70%),
+    var(--color-ink);
+}
+
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.55) 100%);
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  opacity: 0.55;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  opacity: 0;
+  animation: rise 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+    opacity: 1;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
