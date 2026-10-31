@@ -17,35 +17,34 @@ export type Stage = {
 }
 
 export const pillars = [
-  { name: "Health", description: "Physical wellbeing, mental resilience, longevity, lifestyle, and sustainable performance." },
-  { name: "Purpose", description: "Personal direction, meaning, clarity, alignment, and intentional living." },
-  { name: "Power", description: "Influence, leadership, relationships, negotiation, decision-making, and leverage." },
-  { name: "Wealth", description: "Financial intelligence, investments, business, assets, wealth creation, and preservation." },
+  { name: "Wealth", description: "Investments, business, assets." },
+  { name: "Health", description: "Wellbeing, resilience, longevity." },
+  { name: "Purpose", description: "Direction, clarity, meaning." },
+  { name: "Power", description: "Influence, leadership, leverage." },
 ] as const
 
 export const facilitators = [
-  { name: "Uke Enun", background: "Professional association: GoNomad.", website: "https://gonomad.com" },
-  { name: "Israel Otoijamun", background: "Professional association: Xcrow.", website: "https://xcrow.co" },
-  { name: "Taiwo Faruq", background: "Professional associations: Crescend, Taifaq Pixel, Uprix." },
-  { name: "Mrs Kolawole Bola", background: "Classified Profile. Over 25 years of experience in sustainable wealth." },
-  { name: "Mr Kolawole Bola", background: "Classified Profile. Over 25 years of experience in sustainable wealth." },
-  { name: "Olushola Olaleye", background: "Professional identity: TheOlushola." },
-  { name: "Marcel Okeke", background: "Former Chief Economist, Zenith Bank. 15 years of experience." },
-  { name: "Adeola Akinrinmade", background: "Former Financial Director, Petralon Energy. 12 years of experience." },
+  { name: "Adeola Akinrinmade", background: " 25+ years of executive leadership and financial management experience" },
+  { name: "Uke Enun", background: "The Founder of GoNomad.", website: "https://gonomadhq.com", glimpse: "https://youtu.be/VAi33vWQokI" },
+  { name: "Israel Otoijamun", background: "The Founder of Xcrow.", website: "https://xcrow.co", glimpse: "https://www.linkedin.com/in/otoijamun/" },
+  { name: "Marcel Okeke", background: "Former Chief Economist, Zenith Bank. 30+ years of experience.", glimpse: "https://share.google/aimode/Douso0fpDteJL8v5n"},
+  { name: "Dr & Mrs Kolawole Bola", background: "Classified Profiles. Over 25 years of experience in sustainable wealth." },
+  { name: "Taiwo Faruq", background: "Professional associations: Crescend, Taifaq Pixel, Uprix.", glimpse: "https://uprix.vercel.app/" },
+  { name: "Olushola Olaleye", background: "Professional identity: TheOlushola.", glimpse: "https://www.youtube.com/@the_olushola" },
 ] as const
 
 export const facilitatorOptions = [
-  "Particularly interested in their perspective.",
-  "Would love to experience their session.",
+  "Strong yes!",
+  "Open to them",
   "Not familiar enough to decide.",
-  "No particular preference.",
+  "Don't bring them",
 ] as const
 
 export const stages: Stage[] = [
   {
     title: "Your Wealth Lab experience",
     shortTitle: "Looking back",
-    intro: "Before we look ahead, we'd love to look back. Every experience offers something valuable, and understanding yours helps us know what to preserve, improve, and rethink.",
+    intro: "A quick look back first. Honest feedback helps us most.",
     groups: [
       [
         { id: "previous_experience_standout", label: "What stood out most to you about your previous Wealth Lab experience?", type: "text" },
@@ -56,7 +55,7 @@ export const stages: Stage[] = [
         ] },
       ],
       [
-        { id: "improvement_areas", label: "What didn't go as well as you expected?", type: "multi", hint: "Honest feedback, including uncomfortable feedback, helps us grow. There is no wrong answer.", options: [
+        { id: "improvement_areas", label: "What didn't go as well as you expected?", type: "multi", hint: "Honest feedback is welcome, even the uncomfortable kind.", options: [
           "Transportation and accessibility.", "Distance or location.", "Accommodation and hotel arrangements.", "Venue comfort and facilities.",
           "Programme timing and scheduling.", "Programme structure and flow.", "Session duration.", "Content relevance.",
           "Facilitator delivery.", "Networking opportunities.", "Hospitality and refreshments.", "Communication before the event.", "Other.",
@@ -75,7 +74,7 @@ export const stages: Stage[] = [
   {
     title: "What matters to you?",
     shortTitle: "Your priorities",
-    intro: "Wealth is multidimensional. We want to understand which areas of your life and wealth journey deserve more attention in the next edition.",
+    intro: "Which areas deserve more attention next time?",
     groups: [
       [
         { id: "pillar_interests", label: "Which of these four pillars would you most like us to explore more deeply?", type: "pillars", options: pillars.map((pillar) => pillar.name) },
@@ -95,14 +94,14 @@ export const stages: Stage[] = [
           "Real-world case studies and lessons.", "Strategic conversations and deeper thinking.", "Meaningful relationships and networking.",
           "Personal transformation and accountability.", "Business, investment, and wealth opportunities.", "A combination of these.",
         ] },
-        { id: "current_challenge", label: "Is there a particular challenge you're currently navigating that you would appreciate guidance on?", type: "text", hint: "Share only what you feel comfortable sharing. Please avoid sensitive personal information." },
+        { id: "current_challenge", label: "Is there a particular challenge you're currently navigating that you would appreciate guidance on?", type: "text", hint: "Share only what you're comfortable with." },
       ],
     ],
   },
   {
     title: "The experience you want",
     shortTitle: "The experience",
-    intro: "An exceptional experience goes beyond what happens on stage. Every detail matters, from arrival to departure.",
+    intro: "Every detail matters, from arrival to departure.",
     groups: [
       [
         { id: "experience_expectations", label: "What would make the next Wealth Lab experience exceptional for you?", type: "multi", options: [
@@ -130,14 +129,14 @@ export const stages: Stage[] = [
       ],
       [
         { id: "hospitality_transportation_logistics_suggestions", label: "What would you like us to do differently regarding hospitality, transportation, venue, scheduling, or general event logistics?", type: "text" },
-        { id: "accessibility_considerations", label: "Are there any personal or accessibility considerations we should take into account when planning?", type: "text", hint: "Practical arrangements only, such as step-free access or a quiet space. No diagnoses or sensitive medical details are needed." },
+        { id: "accessibility_considerations", label: "Are there any personal or accessibility considerations we should take into account when planning?", type: "text", hint: "Practical needs only, such as step-free access. No medical details." },
       ],
     ],
   },
   {
     title: "The people and perspectives",
     shortTitle: "People & perspectives",
-    intro: "The value of a facilitator goes beyond popularity. We curate for capacity, professional experience, practical knowledge, demonstrated results, and the perspective they bring to the room. Some names may be familiar; others may not. What matters most is their value, not their visibility.",
+    intro: "We curate based on experience and results, not visibility. No one below is confirmed yet.",
     groups: [
       [],
       [],
@@ -162,7 +161,7 @@ export const stages: Stage[] = [
   {
     title: "Your next edition",
     shortTitle: "What's next",
-    intro: "We're putting exciting things together, but before we finalise the direction, we'd love to understand how you're thinking about the next edition.",
+    intro: "A few quick questions to help us plan.",
     groups: [
       [
         { id: "attendance_likelihood", label: "Are you considering attending the next Wealth Lab edition?", type: "single", options: [
@@ -175,11 +174,11 @@ export const stages: Stage[] = [
         ] },
       ],
       [
-        { id: "ticket_preference", label: "Which type of access would you most likely consider?", type: "single", hint: "These are exploratory research categories, not confirmed ticket offerings.", options: [
+        { id: "ticket_preference", label: "Which type of access would you most likely consider?", type: "single", hint: "Research categories, not confirmed offers.", options: [
           "Standard experience.", "Premium/VIP experience.", "Private or intimate access experience.",
           "Enhanced access with additional privileges.", "I would decide based on the actual offering.", "Not sure yet.",
         ] },
-        { id: "pricing_expectations", label: "What would you consider a worthwhile investment for an experience of this nature?", type: "text", hint: "No prices have been set. If you'd like, share an amount or range and your preferred currency." },
+        { id: "pricing_expectations", label: "What would you consider a worthwhile investment for an experience of this nature?", type: "text", hint: "No prices set yet. Share a range if you like." },
         { id: "premium_expectations", label: "What additional privileges or benefits would make a premium ticket worthwhile?", type: "multi", options: [
           "Priority access.", "Exclusive networking.", "Private conversations with facilitators.", "Special seating arrangements.",
           "Curated small-group experiences.", "Accommodation benefits.", "Transportation support.", "Post-event resources.",
@@ -192,7 +191,7 @@ export const stages: Stage[] = [
   {
     title: "One last thing",
     shortTitle: "Final thoughts",
-    intro: "We've covered a lot, but perhaps there's something important we haven't asked. This space is yours.",
+    intro: "Anything we haven't asked?",
     groups: [
       [
         { id: "additional_change", label: "If you could change one thing about Wealth Lab, what would it be?", type: "text" },
@@ -269,6 +268,37 @@ export function parseDraft(raw: string): Answers {
     else throw new Error("Invalid answer")
   }
   return result
+}
+
+export type Progress = {
+  mode: "anonymous" | "identified" | null
+  name: string
+  email: string
+  stageIndex: number
+  groupIndex: number
+}
+
+// Reads the position and sharing details saved next to the answers; anything invalid falls back to a fresh start.
+export function parseProgress(raw: string): Progress {
+  const fresh: Progress = { mode: null, name: "", email: "", stageIndex: 0, groupIndex: 0 }
+  try {
+    const saved: unknown = JSON.parse(raw)
+    const progress = saved && typeof saved === "object" && "progress" in saved ? saved.progress : null
+    if (!progress || typeof progress !== "object") return fresh
+    const { mode, name, email, stageIndex, groupIndex } = progress as Record<string, unknown>
+    const stage = Number.isInteger(stageIndex) ? stages[stageIndex as number] : undefined
+    const stageOk = stage !== undefined
+    const groupOk = stageOk && Number.isInteger(groupIndex) && (groupIndex as number) >= 0 && (groupIndex as number) < stage.groups.length
+    return {
+      mode: mode === "anonymous" || mode === "identified" ? mode : null,
+      name: typeof name === "string" ? name.slice(0, 200) : "",
+      email: typeof email === "string" ? email.slice(0, 254) : "",
+      stageIndex: stageOk ? (stageIndex as number) : 0,
+      groupIndex: groupOk ? (groupIndex as number) : 0,
+    }
+  } catch {
+    return fresh
+  }
 }
 
 export type FeedbackSubmission = {

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict"
 import test from "node:test"
-import { feedbackPayload, facilitators, isVisible, parseDraft, pillars, stages } from "../lib/intelligence.ts"
+import { feedbackPayload, facilitators, isVisible, parseDraft, parseProgress, pillars, stages } from "../lib/intelligence.ts"
 
 test("six chapters cover distinct questions and all eight shortlisted profiles", () => {
   assert.equal(stages.length, 6)
@@ -88,4 +88,15 @@ test("draft restoration accepts only known fields and valid answer shapes", () =
     JSON.stringify({ version: 1, answers: { pillar_interests: ["Invalid option"] } }),
     JSON.stringify({ version: 1, answers: { additional_change: "x".repeat(4001) } }),
   ]) assert.throws(() => parseDraft(raw))
+})
+
+test("progress restoration keeps valid position and sharing details and ignores invalid data", () => {
+  const saved = { version: 1, answers: {}, progress: { mode: "identified", name: "Test Member", email: "m@example.test", stageIndex: 2, groupIndex: 1 } }
+  assert.deepEqual(parseProgress(JSON.stringify(saved)), { mode: "identified", name: "Test Member", email: "m@example.test", stageIndex: 2, groupIndex: 1 })
+  const fresh = { mode: null, name: "", email: "", stageIndex: 0, groupIndex: 0 }
+  assert.deepEqual(parseProgress("{"), fresh)
+  assert.deepEqual(parseProgress(JSON.stringify({ version: 1, answers: {} })), fresh)
+  const outOfRange = parseProgress(JSON.stringify({ progress: { mode: "other", stageIndex: 99, groupIndex: 99 } }))
+  assert.deepEqual(outOfRange, fresh)
+  assert.equal(parseProgress(JSON.stringify({ progress: { stageIndex: 1, groupIndex: 99 } })).groupIndex, 0)
 })
