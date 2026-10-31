@@ -1,6 +1,6 @@
 # Wealth Lab 2027
 
-Next.js 16 (App Router), React 19, Tailwind CSS 4. Currently ships the invitation-only **Coming Soon** page.
+Next.js 16 (App Router), React 19, Tailwind CSS 4. Ships the invitation-only **Coming Soon** homepage and the private **Your Voice** community feedback experience at `/your-voice`.
 
 ## Run
 
@@ -19,6 +19,10 @@ npm run build && npm start
 | `components/notify-form.tsx` | Email form using `@formspree/react` (form `xqpploqd`). Client validation, honeypot, success and error states. |
 | `lib/site.ts` | Brand name, copy, Formspree ID, archive URL. |
 | `app/globals.css` | Design tokens (ink, ivory, champagne gold) and motion. |
+| `app/your-voice/page.tsx` | Private six-stage feedback route; excluded from search indexing, not access-controlled. |
+| `app/your-voice/voice.css` | Responsive, gradient-free feedback styling using existing brand tokens. |
+| `components/intelligence-form.tsx` | Guided questions, sharing preference, optional draft saving, validation, and submission states. |
+| `lib/intelligence.ts` | Question structure, shortlisted profiles, draft validation, and analysis-friendly submission fields. |
 | `docs/ARCHIVE.md` | How the 2026 archive is preserved. |
 
 ## Configuration (optional)
@@ -27,7 +31,22 @@ Copy `.env.example` to `.env.local`.
 
 - `NEXT_PUBLIC_SITE_URL` — canonical URL, used for social metadata.
 - `NEXT_PUBLIC_ARCHIVE_2026_URL` — when set, a "The 2026 Archive" link appears in the footer.
+- `DATABASE_URL` — Neon Postgres connection string used by `/api/feedback` (required for feedback submissions).
 
 ## Evolving into the full site
 
 Add routes beside `app/page.tsx` (e.g. `app/archive`, `app/about`) and shared layout pieces under `components/`. Keep the Coming Soon page in place until launch, then replace the contents of `app/page.tsx`. Reuse the tokens in `globals.css` rather than introducing new colours.
+
+## Community feedback
+
+Share `/your-voice` only with previous attendees. The page is deliberately not linked from the public homepage; `noindex` is not authentication.
+
+- All feedback questions are optional. Sharing preference, a name for identified contributions, and previous-attendee confirmation are required. Email is optional.
+- Six chapters are divided into short question groups. Back navigation preserves responses. Conditional answers are omitted from submissions when their parent selection no longer applies.
+- Submission uses a JSON POST to the same-origin `/api/feedback` route (`app/api/feedback/route.ts`), which validates the body with `sanitizeFeedback` (unknown fields dropped, answers checked against the question options) and inserts a row into the Neon Postgres `feedback_responses` table (created on first use; `answers` is JSONB, name and email are columns). Success requires an HTTP success and `{ ok: true }`. Failures retain answers for retry; a synchronous lock prevents duplicate clicks.
+- Anonymous submissions omit name and email entirely. Switching to anonymous clears identity inputs. The page adds no analytics, but discloses that hosting infrastructure may retain IP addresses or technical logs.
+- Draft saving is explicitly opt-in via **Save draft**. It stores responses (never name or email) in this browser's local storage, not on a server. Returning users can restore or delete the draft; sharing preference and identity must be entered again. Drafts are removed after successful submission. Avoid saving on shared devices.
+- Facilitators are shortlisted, not confirmed. Profile information is limited to the supplied brief. No ticket prices, event dates, or additional biographies are invented.
+- Before deployment, set `DATABASE_URL` in the hosting environment and restrict access to the database. Do not advertise complete technical anonymity.
+
+Validate with `npm test` (Node 22.18+ for native TypeScript loading), `npm run typecheck`, and `npm run build`. The focused tests cover question structure, anonymous payloads, multi-select encoding, conditional filtering, and draft validation. For browser submission checks, intercept the Formspree request and test success, rejection, timeout, and anonymous payloads without sending artificial community responses to the live endpoint.
