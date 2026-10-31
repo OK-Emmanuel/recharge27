@@ -8,11 +8,11 @@ export function ComingSoon() {
         <span className="font-serif text-lg tracking-[0.32em] text-ivory uppercase sm:text-xl">
           {site.name}
         </span>
-        <span className="text-[0.65rem] tracking-[0.3em] text-gold uppercase sm:text-xs">Invitation only</span>
+        <span className="text-[0.65rem] tracking-[0.3em] text-accent-bright uppercase sm:text-xs">Invitation only</span>
       </header>
 
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-10 text-center sm:px-12">
-        <p className="rise text-[0.7rem] tracking-[0.42em] text-gold uppercase sm:text-xs" style={{ "--delay": "150ms" } as React.CSSProperties}>
+        <p className="rise text-[0.7rem] tracking-[0.42em] text-accent-bright uppercase sm:text-xs" style={{ "--delay": "150ms" } as React.CSSProperties}>
           {site.edition} &nbsp;·&nbsp; Coming Soon
         </p>
 
@@ -22,7 +22,7 @@ export function ComingSoon() {
           className="rise max-w-4xl font-serif text-[2.9rem] leading-[1.04] font-light text-balance text-ivory sm:text-7xl lg:text-[5.5rem]"
           style={{ "--delay": "450ms" } as React.CSSProperties}
         >
-          Fortune sides with <em className="font-normal text-gold-bright">him who dares.</em>
+          Fortune sides with <em className="font-normal text-accent-bright">him who dares.</em>
         </h1>
 
         <p
@@ -48,7 +48,7 @@ export function ComingSoon() {
         {site.archive2026Url && (
           <a
             href={site.archive2026Url}
-            className="text-mist transition-colors duration-300 hover:text-gold-bright focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-bright"
+            className="text-mist transition-colors duration-300 hover:text-accent-bright focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-bright"
           >
             The 2026 Archive
           </a>

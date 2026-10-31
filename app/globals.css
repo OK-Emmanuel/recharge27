@@ -1,13 +1,36 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-ink: #08080d;
-  --color-ink-soft: #0e0e16;
-  --color-ivory: #f4efe6;
-  --color-mist: #a8a398;
-  --color-gold: #c9a96a;
-  --color-gold-bright: #e3c98f;
-  --color-line: rgb(201 169 106 / 0.22);
+  --color-ink: #0f0d1e;
+  --color-ink-soft: #15142b;
+  --color-ivory: #f6f5ff;
+  --color-mist: #cfc9e8;
+  --color-gold: #fef0c3;
+  --color-gold-bright: #fff6dc;
+  --color-line: #2f2b4a;
+  --color-accent-bright: #ed8aeb;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: #2b0f2d;
+  --color-destructive: #b3261e;
+  --color-destructive-foreground: #fef2f2;
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
   --color-danger: #e08a82;
   --font-sans: var(--font-sans);
   --font-serif: var(--font-serif);
@@ -15,6 +38,19 @@
 
 :root {
   color-scheme: dark;
+  --background: #0f0d1e;
+  --foreground: #f6f5ff;
+  --card: #15142b;
+  --primary: #5a60c7;
+  --primary-foreground: #f7f7fe;
+  --secondary: #5145b8;
+  --muted: #1e1c33;
+  --muted-foreground: #cfc9e8;
+  --accent: #dc1dda;
+  --border: #2f2b4a;
+  --sidebar: #121026;
+  --sidebar-foreground: #f6f5ff;
+  --sidebar-border: #2f2b4a;
 }
 
 html {
@@ -31,15 +67,15 @@ body {
 }
 
 ::selection {
-  background: var(--color-gold);
-  color: var(--color-ink);
+  background: var(--secondary);
+  color: var(--foreground);
 }
 
-/* Atmosphere: soft indigo/gold light over deep ink, with a vignette */
+/* Original indigo and orchid atmosphere. */
 .atmosphere {
   background:
     radial-gradient(60rem 38rem at 50% -8%, rgb(90 96 199 / 0.2), transparent 70%),
-    radial-gradient(40rem 28rem at 85% 105%, rgb(201 169 106 / 0.1), transparent 70%),
+    radial-gradient(40rem 28rem at 85% 105%, rgb(220 29 218 / 0.12), transparent 70%),
     radial-gradient(40rem 28rem at 8% 95%, rgb(81 69 184 / 0.12), transparent 70%),
     var(--color-ink);
 }
@@ -54,7 +90,7 @@ body {
 
 .hairline {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
   opacity: 0.55;
 }
 

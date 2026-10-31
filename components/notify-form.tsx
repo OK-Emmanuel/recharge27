@@ -32,9 +32,9 @@ export function NotifyForm() {
         ref={successRef}
         tabIndex={-1}
         role="status"
-        className="mx-auto w-full max-w-xl border border-gold/30 bg-ink-soft/70 px-6 py-8 text-center outline-none backdrop-blur-sm sm:px-10"
+        className="mx-auto w-full max-w-xl border border-accent/30 bg-ink-soft/70 px-6 py-8 text-center outline-none backdrop-blur-sm sm:px-10"
       >
-        <p className="font-serif text-3xl italic text-gold-bright">Your request has been received.</p>
+        <p className="font-serif text-3xl italic text-accent-bright">Your request has been received.</p>
         <p className="mx-auto mt-4 max-w-md text-[0.95rem] leading-relaxed text-mist">
           Every request is reviewed personally. If you are approved, we will write to you directly. Approval,
           not registration, determines who is in the room.
@@ -83,7 +83,7 @@ export function NotifyForm() {
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
           onChange={() => clientError && setClientError(null)}
-          className="min-h-12 w-full flex-1 border-0 border-b border-gold/40 bg-transparent px-0 py-2 text-base text-ivory outline-none transition-colors duration-300 placeholder:text-mist/70 focus:border-gold-bright disabled:opacity-60 aria-[invalid=true]:border-danger"
+          className="min-h-12 w-full flex-1 border-0 border-b border-accent/40 bg-transparent px-0 py-2 text-base text-ivory outline-none transition-colors duration-300 placeholder:text-mist/70 focus:border-accent-bright disabled:opacity-60 aria-[invalid=true]:border-danger"
         />
 
         {/* Honeypot: hidden from people and assistive tech, filled in by bots */}
@@ -92,7 +92,7 @@ export function NotifyForm() {
         <button
           type="submit"
           disabled={state.submitting}
-          className="min-h-12 cursor-pointer bg-gold px-7 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-ink transition-colors duration-300 hover:bg-gold-bright focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-bright disabled:cursor-progress disabled:opacity-70 sm:whitespace-nowrap"
+          className="min-h-12 cursor-pointer bg-primary px-7 text-[0.72rem] font-medium uppercase tracking-[0.22em] text-ivory transition-colors duration-300 hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent-bright disabled:cursor-progress disabled:opacity-70 sm:whitespace-nowrap"
         >
           {state.submitting ? "Sending…" : "I want to be in the room"}
         </button>
