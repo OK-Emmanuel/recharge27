@@ -10,8 +10,7 @@ export async function GET() {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const hotSeatsFile = join(process.cwd(), "data", "hot-seats.json")
-    const hotSeats = await readData("commitments")
+    const hotSeats = await readData("hot-seats")
 
     // Convert to CSV
     const headers = ["ID", "User Name", "Email", "Challenge", "Context", "Help Wanted", "Selected", "Timestamp"]
