@@ -20,9 +20,9 @@
 .courtier-invitation > p, .courtier-apply > aside > p:not(.courtier-eyebrow) { color: var(--color-mist); font-size: 17px; line-height: 1.8; margin-bottom: 20px; }
 .courtier-primary { display: inline-flex; justify-content: center; align-items: center; gap: 18px; min-height: 52px; padding: 14px 22px; background: var(--primary); color: var(--primary-foreground); border-radius: 4px; font-size: 15px; font-weight: 500; transition: background 160ms; }
 .courtier-primary:hover { background: var(--secondary); }
-.courtier-details { border-top: 1px solid var(--border); margin-top: 30px; padding-top: 20px; font-size: 15px; line-height: 1.8; color: var(--color-mist); }
-.courtier-details summary { color: var(--color-accent-bright); cursor: pointer; }
-.courtier-details p { margin-top: 16px; }
+button.courtier-primary, .courtier-header > button:last-child { border: 0; cursor: pointer; font-family: inherit; }
+.courtier-header > button:last-child { background: none; padding: 0; color: var(--color-accent-bright); font-size: 14px; }
+.courtier-detail-heading { color: var(--color-accent-bright); font-size: 20px; margin: 16px 0 14px; }
 .courtier-apply { scroll-margin-top: 24px; border-top: 1px solid var(--border); max-width: 1280px; margin: auto; padding: 64px 5%; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); gap: 64px; }
 .courtier-apply > aside > h2 { margin-top: 20px; font-size: 34px; }
 .courtier-apply > aside > .courtier-small { font-size: 14px !important; }
@@ -66,7 +66,7 @@
 @media (max-width: 680px) {
   .courtier-header { padding: 22px; }
   .courtier-wordmark { font-size: 15px; }
-  .courtier-header > a:last-child { font-size: 12px; }
+  .courtier-header > a:last-child, .courtier-header > button:last-child { font-size: 12px; }
   .courtier-intro, .courtier-apply { display: block; }
   .courtier-title { border-right: 0; padding: 44px 24px; }
   .courtier-title h1 { font-size: clamp(50px, 12vw, 72px); }
