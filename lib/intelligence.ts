@@ -44,7 +44,7 @@ export const stages: Stage[] = [
   {
     title: "Your Wealth Lab experience",
     shortTitle: "Looking back",
-    intro: "A quick look back first. Honest feedback helps us most.",
+    intro: "Let's reflect on your previous Wealth Lab experience.",
     groups: [
       [
         { id: "previous_experience_standout", label: "What stood out most to you about your previous Wealth Lab experience?", type: "text" },

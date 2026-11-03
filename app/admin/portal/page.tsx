@@ -13,6 +13,13 @@ export default async function AdminPortalPage() {
 
   const adminSections = [
     {
+      title: "Wealth Courtiers",
+      description: "Manually review volunteer applications, record decisions, and keep internal notes",
+      href: "/admin/portal/wealth-courtiers",
+      icon: Users,
+      color: "text-[var(--accent)]",
+    },
+    {
       title: "2027 Community Feedback",
       description: "Your Voice responses, interests, and suggestions for the next edition",
       href: "/admin/portal/community-feedback",
@@ -89,7 +96,7 @@ export default async function AdminPortalPage() {
       <div className="mb-8">
         <h1 className="text-4xl font-bold text-white mb-2">Admin Portal</h1>
         <p className="text-gray-400">
-          Review 2027 community feedback and manage the 2026 archive without switching websites
+          Review community feedback and Courtier applications, and manage the 2026 archive
         </p>
       </div>
 

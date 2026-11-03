@@ -64,3 +64,13 @@ Share `/your-voice` only with previous attendees. The page is deliberately not l
 - Before deployment, set `DATABASE_URL` in the hosting environment and restrict access to the database. Do not advertise complete technical anonymity.
 
 Validate with `npm test` (Node 22.18+ for native TypeScript loading), `npm run typecheck`, and `npm run build`. The focused tests cover question structure, anonymous payloads, multi-select encoding, conditional filtering, and draft validation. For browser submission checks, intercept `/api/feedback` and test success, rejection, timeout, and anonymous payloads without sending artificial community responses to the live endpoint.
+
+## Wealth Courtiers
+
+The public `/wealth-courtiers` page introduces Grace, Excellence, and Agency and opens a three-step volunteer evaluation form. It collects a name, email, skills, relevant work evidence, motivation, two practical scenarios, availability, and acknowledgement of unpaid service and self-funded admission. A portfolio URL is optional. Applying does not purchase a ticket or guarantee selection; no automated scoring or selection is performed.
+
+- Run `npm run seed:courtiers` with the intended `DATABASE_URL` configured before deployment. The idempotent seed creates `courtier_skills` and `courtier_applications` and inserts the nine operational skill categories. It never creates fake applications or touches the 2026 archive. The public page reads the seeded categories; database failures are not replaced with empty success states.
+- Applications POST to `/api/wealth-courtiers`. The server validates every field and stores only allowlisted data. Answers stay in the form while moving between steps or retrying a failed request; they are not persisted after reload. A submission UUID makes identical retries idempotent without resetting review decisions.
+- Admins use `/admin/portal/wealth-courtiers` to filter and paginate applications, inspect all evaluation answers, and save **Pending**, **Accepted**, or **Declined** decisions with private notes. The review API checks the admin session and same-origin requests. Version checks prevent stale reviews from overwriting newer decisions.
+- Review saves record the reviewer and time. They do **not** email applicants; use the applicant's email link for manual follow-up. Acceptance is not payment verification or a ticket allocation.
+- `scripts/courtiers-schema.sql`, `lib/courtiers.ts`, and `lib/courtier-db.ts` define the schema, evaluation / validation, and database operations respectively. Deploy the schema to the production database as well as local development.

@@ -34,6 +34,7 @@ const getNavItems = (isAdmin: boolean) => {
     return [
       { href: "/admin/portal", label: "Admin Dashboard", icon: Home },
       { href: "/admin/portal/community-feedback", label: "2027 Feedback", icon: MessageCircle },
+      { href: "/admin/portal/wealth-courtiers", label: "Wealth Courtiers", icon: Users },
       { href: "/admin/portal/participants", label: "2026 Participants", icon: Users },
       { href: "/admin/portal/attendance", label: "Attendance", icon: CheckCircle },
       { href: "/admin/portal/labs", label: "Lab Submissions", icon: FlaskConical },

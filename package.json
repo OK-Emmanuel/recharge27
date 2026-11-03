@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "test": "node --test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed:courtiers": "node scripts/seed-courtiers.mjs"
   },
   "dependencies": {
     "@formspree/react": "^3.0.0",

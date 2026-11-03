@@ -327,7 +327,7 @@ export function IntelligenceForm() {
         </div>
       )}
       <p className="voice-privacy-copy">
-        {mode === "anonymous" ? "No name or email is attached. Hosting logs may still record technical data." : "Used only for feedback analysis and community updates."}
+        {mode === "anonymous" ? "No name or email is attached." : "Used only for feedback analysis and community updates."}
       </p>
     </fieldset>
   )
@@ -354,12 +354,12 @@ export function IntelligenceForm() {
             <p className="voice-eyebrow"><span className="voice-dash" /> The next chapter begins with you</p>
             <h1 ref={headingRef} tabIndex={-1}>Your voice<br /><em>matters.</em><span className="voice-headline-period" /></h1>
             <p className="voice-welcome-subtitle">Your interests. Your experience.<br />What&apos;s next for Wealth Lab.</p>
-            <div className="voice-seal" aria-hidden="true"><span>HEALTH · PURPOSE</span><b>W<span>L</span></b><span>POWER · WEALTH</span></div>
+            {/* <div className="voice-seal" aria-hidden="true"><span>HEALTH · PURPOSE</span><b>W<span>L</span></b><span>POWER · WEALTH</span></div> */}
           </section>
 
           <section className="voice-welcome-letter" aria-labelledby="welcome-letter-title">
-            <h2 id="welcome-letter-title">An exceptional experience<br />starts with <em>listening.</em></h2>
-            <p>We&apos;re planning the next edition, and we&apos;re thinking about <span className="voice-letter-emphasis">you.</span> Tell us what to keep, what to change, and what you&apos;d love to see across Health, Purpose, Power and Wealth.</p>
+            <h2 id="welcome-letter-title">An exceptional experience<br />starts with <em>your input.</em></h2>
+            <p>We&apos;re planning the next edition, and we&apos;re thinking about <span className="voice-letter-emphasis">you.</span> Tell us what to keep, what to change, and what you&apos;d love to see in Wealth Lab 2027.</p>
             {identity}
             {errorMessage}
             <button type="button" className="voice-primary" onClick={() => {
@@ -451,7 +451,7 @@ export function IntelligenceForm() {
           </section>
         </main>
       )}
-      <footer className="voice-footer">Wealth Lab · Beyond Wealth. Towards a More Intentional Life.</footer>
+      <footer className="voice-footer">The Wealth Lab 2027.</footer>
     </div>
   )
 }
