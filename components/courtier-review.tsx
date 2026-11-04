@@ -3,19 +3,25 @@
 import { useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { reviewStatuses, type ReviewStatus } from "@/lib/courtiers"
+import { useUnsavedChanges } from "@/components/admin/detail-drawer"
 import { Button } from "@/components/ui/button"
 
-export function CourtierReview({ id, status: initialStatus, notes: initialNotes, version }: {
+export function CourtierReview({ id, status: initialStatus, notes: initialNotes, version, onSaved }: {
   id: string; status: ReviewStatus; notes: string; version: number
+  /** Called after the decision is saved, with the status that was saved. */
+  onSaved?: (status: ReviewStatus) => void
 }) {
   const router = useRouter()
   const [status, setStatus] = useState(initialStatus)
   const [notes, setNotes] = useState(initialNotes)
+  // What is stored, so a just-saved form is not reported as unsaved while the page refreshes.
+  const [saved, setSaved] = useState({ status: initialStatus, notes: initialNotes })
+  useUnsavedChanges(status !== saved.status || notes !== saved.notes)
   const [saving, setSaving] = useState(false)
   const [message, setMessage] = useState("")
   const [failed, setFailed] = useState(false)
   const lock = useRef(false)
-  const fieldClass = "w-full mt-2 rounded border border-border bg-background px-3 py-2 text-base"
+  const fieldClass = "w-full mt-2 rounded-md border border-border bg-background px-3 py-2 text-base outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
 
   async function save(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -39,6 +45,8 @@ export function CourtierReview({ id, status: initialStatus, notes: initialNotes,
           ? result.error : "Could not confirm the review was saved.")
       }
       setMessage("Review saved.")
+      setSaved({ status, notes })
+      onSaved?.(status)
       router.refresh()
     } catch (error) {
       setFailed(true)
@@ -53,9 +61,9 @@ export function CourtierReview({ id, status: initialStatus, notes: initialNotes,
   }
 
   return (
-    <form onSubmit={save} className="border-t border-border pt-6 mt-6">
+    <form onSubmit={save}>
       <fieldset disabled={saving} className="space-y-4">
-        <label className="block" htmlFor={`status-${id}`}>Manual decision
+        <label className="block text-sm font-medium" htmlFor={`status-${id}`}>Manual decision
           <select id={`status-${id}`} className={fieldClass} value={status} onChange={(event) => {
             const next = reviewStatuses.find((item) => item === event.target.value)
             if (next) setStatus(next)
@@ -63,7 +71,7 @@ export function CourtierReview({ id, status: initialStatus, notes: initialNotes,
             {reviewStatuses.map((item) => <option key={item} value={item}>{item[0].toUpperCase() + item.slice(1)}</option>)}
           </select>
         </label>
-        <label className="block" htmlFor={`notes-${id}`}>Internal review notes
+        <label className="block text-sm font-medium" htmlFor={`notes-${id}`}>Internal review notes
           <textarea id={`notes-${id}`} className={fieldClass} rows={3} maxLength={5000} value={notes}
             onChange={(event) => setNotes(event.target.value)} />
         </label>

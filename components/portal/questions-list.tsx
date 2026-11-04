@@ -1,31 +1,62 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { useEffect, useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { User, UserX, Check } from "lucide-react"
+import { Check, User, UserX } from "lucide-react"
+import { DataTable, type DataTableColumn, type DataTableDetail, type DataTableFilter } from "@/components/admin/data-table"
+import { DetailFact, DetailFacts, DetailSection } from "@/components/admin/detail-parts"
+import { StatusBadge } from "@/components/admin/status-badge"
+import { TextCell } from "@/components/admin/text-cell"
+import { formatDate, formatDateTime, timestampValue } from "@/lib/format"
+import { toQuestionRow, type QuestionRow } from "@/lib/legacy-records"
 
 interface QuestionsListProps {
   userId: string
   isAdmin: boolean
 }
 
-interface Question {
-  id: string
-  question: string
-  category: string
-  isAnonymous: boolean
-  userName: string
-  answered: boolean
-  timestamp: string
-  isOwn?: boolean
+const askedBy = (row: QuestionRow) => row.anonymous ? "Anonymous" : row.name ?? "Unknown participant"
+
+function AnsweredBadge() {
+  return <StatusBadge tone="success"><Check />Answered</StatusBadge>
 }
 
-export default function QuestionsList({ userId, isAdmin }: QuestionsListProps) {
-  const [questions, setQuestions] = useState<Question[]>([])
+function StatusPill({ row }: { row: QuestionRow }) {
+  return row.answered ? <AnsweredBadge /> : <StatusBadge tone="warning" dot>Open</StatusBadge>
+}
+
+function AskedBy({ row }: { row: QuestionRow }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 text-muted-foreground">
+      {row.anonymous ? <UserX aria-hidden className="size-4" /> : <User aria-hidden className="size-4" />}
+      {askedBy(row)}
+    </span>
+  )
+}
+
+const columns: DataTableColumn<QuestionRow>[] = [
+  { id: "question", header: "Question", sortValue: (row) => row.question, cell: (row) => <TextCell title={row.question || "No question text"} lines={2} /> },
+  { id: "category", header: "Category", className: "hidden md:table-cell", sortValue: (row) => row.category, cell: (row) => <StatusBadge>{row.category}</StatusBadge> },
+  { id: "from", header: "From", className: "hidden lg:table-cell", sortValue: askedBy, cell: (row) => <AskedBy row={row} /> },
+  { id: "status", header: "Status", sortValue: (row) => row.answered ? 1 : 0, cell: (row) => <StatusPill row={row} /> },
+  { id: "asked", header: "Asked", className: "hidden whitespace-nowrap sm:table-cell", sortValue: (row) => timestampValue(row.askedAt),
+    cell: (row) => <span className="text-muted-foreground">{formatDate(row.askedAt)}</span> },
+]
+
+const filter: DataTableFilter<QuestionRow> = {
+  label: "Filter by status",
+  options: [{ value: "open", label: "Open" }, { value: "answered", label: "Answered" }],
+  getValue: (row) => row.answered ? "answered" : "open",
+}
+
+const searchText = (row: QuestionRow) => [row.question, row.category, askedBy(row), row.answered ? "answered" : "open"].join(" ")
+
+export default function QuestionsList({ isAdmin }: QuestionsListProps) {
+  const [questions, setQuestions] = useState<QuestionRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [pendingId, setPendingId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchQuestions()
@@ -42,7 +73,7 @@ export default function QuestionsList({ userId, isAdmin }: QuestionsListProps) {
       const res = await fetch("/api/portal/questions")
       if (res.ok) {
         const data = await res.json()
-        setQuestions(data.questions)
+        setQuestions(Array.isArray(data.questions) ? data.questions.map(toQuestionRow) : [])
       } else throw new Error(`Failed to load questions (${res.status})`)
     } catch (error) {
       console.error("Failed to fetch questions:", error)
@@ -53,6 +84,8 @@ export default function QuestionsList({ userId, isAdmin }: QuestionsListProps) {
   }
 
   const handleMarkAnswered = async (questionId: string) => {
+    if (pendingId) return
+    setPendingId(questionId)
     try {
       const res = await fetch("/api/portal/questions/mark-answered", {
         method: "POST",
@@ -61,11 +94,13 @@ export default function QuestionsList({ userId, isAdmin }: QuestionsListProps) {
       })
 
       if (res.ok) {
-        fetchQuestions()
+        await fetchQuestions()
       } else throw new Error(`Failed to update question (${res.status})`)
     } catch (error) {
       console.error("Failed to mark as answered:", error)
       setError("Unable to mark this question as answered. Please retry.")
+    } finally {
+      setPendingId(null)
     }
   }
 
@@ -79,70 +114,55 @@ export default function QuestionsList({ userId, isAdmin }: QuestionsListProps) {
     )
   }
 
+  const detail: DataTableDetail<QuestionRow> = {
+    title: (row) => `Question from ${askedBy(row)}`,
+    description: (row) => <>Asked {formatDateTime(row.askedAt)}</>,
+    badge: (row) => <StatusPill row={row} />,
+    content: (row) => (
+      <>
+        <DetailSection title="Question">
+          <p className="rounded-lg border border-accent/40 bg-accent/5 px-4 py-3.5 text-base leading-relaxed break-words whitespace-pre-wrap text-foreground">
+            {row.question || "No question text."}
+          </p>
+        </DetailSection>
+        <DetailSection title="Details">
+          <DetailFacts>
+            <DetailFact label="Category">{row.category}</DetailFact>
+            <DetailFact label="Asked by"><AskedBy row={row} /></DetailFact>
+            <DetailFact label="Asked">{formatDateTime(row.askedAt)}</DetailFact>
+            <DetailFact label="Status">{row.answered ? "Answered" : "Open"}</DetailFact>
+            {row.answered && <DetailFact label="Answered">{formatDateTime(row.answeredAt)}</DetailFact>}
+            {row.answered && row.answeredBy && <DetailFact label="Answered by">{row.answeredBy}</DetailFact>}
+          </DetailFacts>
+        </DetailSection>
+      </>
+    ),
+    footer: isAdmin
+      ? (row) => row.answered ? undefined : (
+        <Button type="button" disabled={pendingId !== null} onClick={() => handleMarkAnswered(row.id)}>
+          {pendingId === row.id ? "Saving..." : "Mark as Answered"}
+        </Button>
+      )
+      : undefined,
+  }
+
   return (
     <div className="space-y-4">
       {error && <div role="alert" className="text-danger">{error} <Button variant="outline" onClick={fetchQuestions}>Retry</Button></div>}
-      <Card className="bg-[var(--card)] border-[var(--border)]">
-        <CardHeader>
-          <CardTitle className="text-white">All Questions</CardTitle>
-        </CardHeader>
-      </Card>
 
-      {error && questions.length === 0 ? null : questions.length === 0 ? (
-        <Card className="bg-[var(--card)] border-[var(--border)]">
-          <CardContent className="py-8 text-center text-gray-400">
-            No questions yet. Be the first to ask!
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-3">
-          {questions.map((q) => (
-            <Card 
-              key={q.id} 
-              className={`bg-[var(--card)] ${q.answered ? 'border-green-500/30' : 'border-[var(--border)]'} ${q.isOwn ? 'border-l-4 border-l-[var(--accent)]' : ''}`}
-            >
-              <CardContent className="pt-4">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    {q.isAnonymous ? (
-                      <UserX className="h-4 w-4 text-gray-500" />
-                    ) : (
-                      <User className="h-4 w-4 text-[var(--accent)]" />
-                    )}
-                    <span className="text-sm text-gray-400">
-                      {q.isAnonymous ? "Anonymous" : q.userName}
-                    </span>
-                    <Badge variant="outline" className="text-xs">
-                      {q.category}
-                    </Badge>
-                  </div>
-                  {q.answered && (
-                    <Badge className="bg-green-500/20 text-green-400">
-                      <Check className="h-3 w-3 mr-1" />
-                      Answered
-                    </Badge>
-                  )}
-                </div>
-                
-                <p className="text-white mb-3">{q.question}</p>
-                
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>{new Date(q.timestamp).toLocaleString()}</span>
-                  {isAdmin && !q.answered && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleMarkAnswered(q.id)}
-                      className="text-xs"
-                    >
-                      Mark as Answered
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+      {error && questions.length === 0 ? null : (
+        <DataTable
+          caption="Questions"
+          rows={questions}
+          columns={columns}
+          getRowId={(row) => row.id}
+          searchText={searchText}
+          searchPlaceholder="Search questions…"
+          filter={filter}
+          pageSize={25}
+          emptyMessage="No questions yet."
+          detail={detail}
+        />
       )}
     </div>
   )

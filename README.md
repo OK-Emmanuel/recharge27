@@ -47,6 +47,24 @@ Open `/admin` on the new domain; sign in at `/admin/login`. The dashboard is cop
 - The original resource list contains placeholder downloads. These are shown as unavailable until actual files are supplied.
 - Database failures show an error rather than an empty-data success. The old recharge26 app is unchanged.
 
+### Admin tables and the detail drawer
+
+Lists in the admin portal are tables. Selecting a row (click, or Enter on its first cell) opens a drawer on the right with the full details laid out for reading. The arrows in the drawer step through the list, Escape or the close button dismisses it, and focus returns to the row.
+
+| Path | Purpose |
+| --- | --- |
+| `components/admin/data-table.tsx` | `DataTable`: search, optional filter buttons with counts, sortable columns, in-browser pagination (`pageSize`), keyboard-accessible rows, and the drawer. |
+| `components/admin/detail-drawer.tsx`, `detail-parts.tsx` | The drawer (built on `components/ui/sheet.tsx`, which wraps Radix Dialog) and the blocks used inside it: sections, facts, long answers, tags, and safe links. |
+| `components/admin/*-table.tsx` | One client component per page. It defines the columns and drawer content and receives plain rows from the server page, e.g. `courtier-table.tsx`. |
+| `lib/admin-table.ts`, `lib/format.ts` | Tested search, sort, pagination, and date helpers. Dates are shown in UTC so server and browser output match. |
+| `lib/feedback-view.ts`, `lib/lab-audits.ts`, `lib/legacy-records.ts` | Turn stored answers and the loosely typed 2026 records into labelled rows. They also keep user IDs out of the browser. |
+
+- To add a table, fetch the rows in the server page and pass them to a new `*-table.tsx`. Columns are functions, which cannot cross the server/client boundary, so define `columns`, `filter`, and `searchText` in that client file, outside the component.
+- Pages that paginate on the server (Wealth Courtiers, 2027 Feedback) search and sort the 25 or 50 rows on the current page only. Their tables are keyed on the filter and page so they reset when you navigate.
+- The first column's cell sits inside the button that opens the drawer, so keep it to inline elements (spans, not divs).
+- Stored links and image addresses are only linked when they are web, mail, or same-site addresses; anything else is shown as text.
+- The drawer content is whatever the page needs. The Courtier drawer holds the review form, which calls `useUnsavedChanges` so closing the drawer or stepping to another application asks before discarding unsaved edits. The hot seat and question drawers pin their select / mark-answered actions below the content.
+
 ## Evolving into the full site
 
 Add routes beside `app/page.tsx` (e.g. `app/archive`, `app/about`) and shared layout pieces under `components/`. Keep the Coming Soon page in place until launch, then replace the contents of `app/page.tsx`. Reuse the tokens in `globals.css` rather than introducing new colours.
@@ -71,6 +89,6 @@ The public `/wealth-courtiers` page introduces Grace, Excellence, and Agency and
 
 - Run `npm run seed:courtiers` with the intended `DATABASE_URL` configured before deployment. The idempotent seed creates `courtier_skills` and `courtier_applications` and inserts the nine operational skill categories. It never creates fake applications or touches the 2026 archive. The public page reads the seeded categories; database failures are not replaced with empty success states.
 - Applications POST to `/api/wealth-courtiers`. The server validates every field and stores only allowlisted data. Answers stay in the form while moving between steps or retrying a failed request; they are not persisted after reload. A submission UUID makes identical retries idempotent without resetting review decisions.
-- Admins use `/admin/portal/wealth-courtiers` to filter and paginate applications, inspect all evaluation answers, and save **Pending**, **Accepted**, or **Declined** decisions with private notes. The review API checks the admin session and same-origin requests. Version checks prevent stale reviews from overwriting newer decisions.
+- Admins use `/admin/portal/wealth-courtiers` to filter and paginate applications, open one in the detail drawer to inspect all evaluation answers, and save **Pending**, **Accepted**, or **Declined** decisions with private notes. The review API checks the admin session and same-origin requests. Version checks prevent stale reviews from overwriting newer decisions.
 - Review saves record the reviewer and time. They do **not** email applicants; use the applicant's email link for manual follow-up. Acceptance is not payment verification or a ticket allocation.
 - `scripts/courtiers-schema.sql`, `lib/courtiers.ts`, and `lib/courtier-db.ts` define the schema, evaluation / validation, and database operations respectively. Deploy the schema to the production database as well as local development.

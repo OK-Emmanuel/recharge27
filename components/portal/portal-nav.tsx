@@ -162,7 +162,7 @@ export default function PortalNav({ user, children }: PortalNavProps) {
         </div>
       </aside>
 
-      <div className={cn("flex min-h-screen flex-1 flex-col", desktopWidth)}>
+      <div className={cn("flex min-h-screen min-w-0 flex-1 flex-col", desktopWidth)}>
         <header className="flex items-center justify-between border-b border-border bg-card/60 px-4 py-3 backdrop-blur lg:hidden">
           <div className="flex items-center gap-3">
             <Button
