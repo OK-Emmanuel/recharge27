@@ -20,7 +20,7 @@ import {
   ChevronRight,
   Megaphone,
   SlidersHorizontal,
-} from "lucide-react"
+} from "@/components/icons"
 import { useState, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 

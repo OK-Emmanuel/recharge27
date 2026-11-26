@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { Card, CardContent } from "@/components/ui/card"
-import { Activity, Briefcase, Target } from "lucide-react"
+import { Activity, Briefcase, Target } from "@/components/icons"
 import { readData } from "@/lib/data-store"
 import { toLabRow, type LabRow } from "@/lib/lab-audits"
 import { LabSubmissionsTable } from "@/components/admin/lab-submissions-table"

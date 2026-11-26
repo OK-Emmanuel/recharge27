@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Check, User, UserX } from "lucide-react"
+import { Check, User, UserX } from "@/components/icons"
 import { DataTable, type DataTableColumn, type DataTableDetail, type DataTableFilter } from "@/components/admin/data-table"
 import { DetailFact, DetailFacts, DetailSection } from "@/components/admin/detail-parts"
 import { StatusBadge } from "@/components/admin/status-badge"

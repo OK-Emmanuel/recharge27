@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Send, CheckCircle2 } from "lucide-react"
+import { Send, CheckCircle as CheckCircle2 } from "@/components/icons"
 
 export function AnnouncementForm() {
   const [title, setTitle] = useState("")

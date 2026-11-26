@@ -4,7 +4,7 @@ import { readData } from "@/lib/data-store"
 import { readFeedback } from "@/lib/db"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Download } from "lucide-react"
+import { Download } from "@/components/icons"
 
 export default async function AdminExportPage() {
   const session = await auth()

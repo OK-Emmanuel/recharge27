@@ -1,9 +1,11 @@
 export const site = {
   name: "Wealth Lab",
   edition: "2027",
-  tagline: "By invitation only.",
+  theme: "Ratio Fortunae",
+  themeMeaning: "The Logic of Wealth",
+  tagline: "Where wealth builders think, build, and execute.",
   description:
-    "Wealth Lab returns in 2027. A private, invitation-only gathering for those who build with intention. Request to be invited.",
+    "Wealth Lab 2027 — Ratio Fortunae, the Logic of Wealth. A private two-day gathering for those who build with intention. Reserve your seat.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://wealthlab.example",
   formspreeFormId: "xqpploqd",
   // Set NEXT_PUBLIC_ARCHIVE_2026_URL to the 2026 deployment to surface the archive link.

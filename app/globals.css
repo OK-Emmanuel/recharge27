@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-ink: #0f0d1e;
-  --color-ink-soft: #15142b;
-  --color-ivory: #f6f5ff;
-  --color-mist: #cfc9e8;
-  --color-gold: #fef0c3;
-  --color-gold-bright: #fff6dc;
-  --color-line: #2f2b4a;
-  --color-accent-bright: #ed8aeb;
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ivory: var(--ivory);
+  --color-mist: var(--mist);
+  --color-gold: var(--gold);
+  --color-gold-bright: var(--gold-bright);
+  --color-gold-deep: var(--gold-deep);
+  --color-line: var(--line);
+  --color-accent-bright: var(--accent-bright);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -40,26 +41,51 @@
   --animate-overlay-out: overlay-out 200ms ease-in forwards;
 }
 
+/*
+ * Theme tokens. Each value is light-dark(light, dark): the dark side is the original
+ * indigo identity, the light side is a lavender and gold palette. `color-scheme` follows
+ * the operating system by default; the footer toggle pins it via [data-theme].
+ */
 :root {
-  color-scheme: dark;
-  --background: #0f0d1e;
-  --foreground: #f6f5ff;
-  --card: #15142b;
-  --primary: #5a60c7;
+  color-scheme: light dark;
+  --ink: light-dark(#f4f1fc, #0f0d1e);
+  --ink-soft: light-dark(#ebe6f8, #15142b);
+  --ivory: light-dark(#17142e, #f6f5ff);
+  --mist: light-dark(#4a4570, #cfc9e8);
+  --gold: light-dark(#fef0c3, #fef0c3);
+  --gold-bright: light-dark(#f7dd8c, #fff6dc);
+  --gold-deep: light-dark(#7a5a0b, #fef0c3);
+  --line: light-dark(#d8d0ee, #2f2b4a);
+  --accent-bright: light-dark(#a3139f, #ed8aeb);
+  --background: light-dark(#f4f1fc, #0f0d1e);
+  --foreground: light-dark(#17142e, #f6f5ff);
+  --card: light-dark(#fcfbff, #15142b);
+  --primary: light-dark(#4a50b5, #5a60c7);
   --primary-foreground: #f7f7fe;
   --secondary: #5145b8;
-  --muted: #1e1c33;
-  --muted-foreground: #cfc9e8;
+  --muted: light-dark(#e7e2f6, #1e1c33);
+  --muted-foreground: light-dark(#4a4570, #cfc9e8);
   --accent: #dc1dda;
-  --border: #2f2b4a;
-  --sidebar: #121026;
-  --sidebar-foreground: #f6f5ff;
-  --sidebar-border: #2f2b4a;
+  --border: light-dark(#d8d0ee, #2f2b4a);
+  --sidebar: light-dark(#ece8f8, #121026);
+  --sidebar-foreground: light-dark(#17142e, #f6f5ff);
+  --sidebar-border: light-dark(#d8d0ee, #2f2b4a);
+  --shade: light-dark(rgb(74 69 112 / 0.07), rgb(0 0 0 / 0.55));
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
 }
 
 html {
   background: var(--color-ink);
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -89,7 +115,139 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 55%, rgb(0 0 0 / 0.55) 100%);
+  background: radial-gradient(ellipse at center, transparent 55%, var(--shade) 100%);
+}
+
+/* Landing page primitives. */
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--color-accent-bright);
+}
+
+.section-title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.section-title em {
+  font-weight: 400;
+  color: var(--color-accent-bright);
+}
+
+.gold-text {
+  color: var(--color-gold-deep);
+}
+
+@layer components {
+.btn-gold,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.btn-gold {
+  padding: 0.85rem 1.9rem;
+  background: var(--color-gold);
+  color: #2a2208;
+  border: 1px solid light-dark(#cfa94f, var(--color-gold));
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  background: var(--color-gold-bright);
+}
+
+.btn-ghost {
+  padding: 0.85rem 1.9rem;
+  color: var(--color-ivory);
+  border: 1px solid var(--color-line);
+}
+
+.btn-ghost:hover {
+  border-color: var(--color-accent-bright);
+  color: var(--color-accent-bright);
+}
+}
+
+.card-surface {
+  background: var(--color-card);
+  border: 1px solid var(--color-line);
+}
+
+.chip-gold {
+  background: light-dark(var(--gold), rgb(254 240 195 / 0.12));
+  color: light-dark(#2a2208, var(--gold));
+}
+
+.focus-ring:focus-visible,
+:is(a, button, summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-accent-bright);
+  outline-offset: 4px;
+}
+
+/* Scroll reveal: content stays visible without JavaScript. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms);
+}
+
+.js .reveal[data-visible="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Speaker placeholder portrait: monogram on a layered gradient. */
+.portrait {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, light-dark(rgb(163 19 159 / 0.16), rgb(220 29 218 / 0.22)), transparent 60%),
+    linear-gradient(160deg, light-dark(#e2daf6, #1e1c3f), light-dark(#f7efd2, #15142b));
+}
+
+.portrait::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to top, light-dark(rgb(244 241 252 / 0.9), rgb(15 13 30 / 0.85)), transparent 55%);
+}
+
+.speaker-card:hover .portrait-numeral,
+.speaker-card:focus-visible .portrait-numeral {
+  transform: translateY(-6px) scale(1.04);
+}
+
+.portrait-numeral {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.marquee-rule {
+  background: linear-gradient(90deg, transparent, var(--color-gold-bright), transparent);
+  height: 1px;
+  opacity: 0.7;
 }
 
 .hairline {
@@ -140,6 +298,14 @@ body {
   .rise {
     animation: none;
     opacity: 1;
+  }
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto !important;
   }
   [data-slot="sheet-content"],
   [data-slot="sheet-overlay"] {

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import Link from "next/link"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Users, MessageSquare, FlaskConical, Star, Bell, MessageCircle, CheckCircle, Download, SlidersHorizontal } from "lucide-react"
+import { Users, MessageSquare, FlaskConical, Star, Bell, MessageCircle, CheckCircle, Download, SlidersHorizontal } from "@/components/icons"
 
 export default async function AdminPortalPage() {
   const session = await auth()

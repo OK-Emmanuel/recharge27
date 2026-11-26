@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { FolderOpen, FileText } from "lucide-react"
+import { FolderOpen, FileText } from "@/components/icons"
 
 const resources = [
   {

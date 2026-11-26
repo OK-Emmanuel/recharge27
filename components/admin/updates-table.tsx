@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { ImageIcon } from "lucide-react"
+import { ImageGlyph as ImageIcon } from "@/components/icons"
 import type { UpdateRow } from "@/lib/legacy-records"
 import { formatDate, formatDateTime, safeHref, timestampValue } from "@/lib/format"
 import { DataTable, type DataTableColumn, type DataTableDetail, type DataTableFilter } from "./data-table"

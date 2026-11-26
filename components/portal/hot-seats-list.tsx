@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Star } from "lucide-react"
+import { Star } from "@/components/icons"
 import { DataTable, type DataTableColumn, type DataTableDetail, type DataTableFilter } from "@/components/admin/data-table"
 import { DetailAnswer, DetailAnswers, DetailSection } from "@/components/admin/detail-parts"
 import { PersonCell } from "@/components/admin/person-cell"

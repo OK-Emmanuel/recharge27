@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react"
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronRight, Search } from "lucide-react"
+import { ArrowDown, ArrowUp, ArrowUpDown, ChevronRight, Search } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"

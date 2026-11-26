@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { IntelligenceForm } from "@/components/intelligence-form"
+import { SiteFooter } from "@/components/site-footer"
 import "./voice.css"
 
 const title = "Your Voice Matters | Wealth Lab"
@@ -14,5 +15,10 @@ export const metadata: Metadata = {
 }
 
 export default function YourVoicePage() {
-  return <IntelligenceForm />
+  return (
+    <>
+      <IntelligenceForm />
+      <SiteFooter />
+    </>
+  )
 }

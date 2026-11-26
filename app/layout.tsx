@@ -17,7 +17,7 @@ const sans = Inter({
   display: "swap",
 })
 
-const title = `${site.name} ${site.edition} — Coming Soon`
+const title = `${site.name} ${site.edition} — ${site.theme}`
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -33,13 +33,22 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#08080d",
-  colorScheme: "dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f4f1fc" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f0d1e" },
+  ],
+  colorScheme: "light dark",
 }
+
+// Runs before first paint so a saved theme choice never flashes the wrong palette.
+const themeScript = `(function(){try{var d=document.documentElement;d.classList.add("js");var t=localStorage.getItem("wl-theme");if(t==="light"||t==="dark")d.dataset.theme=t}catch(e){}})()`
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable}`}>
+    <html lang="en" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body>{children}</body>
     </html>
   )

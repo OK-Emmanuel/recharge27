@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { CourtierPageContent } from "@/components/courtier-page-content"
+import { SiteFooter } from "@/components/site-footer"
 import { readCourtierSkills } from "@/lib/courtier-db"
 import "./courtiers.css"
 
@@ -14,5 +15,10 @@ export const metadata: Metadata = {
 
 export default async function WealthCourtiersPage() {
   const skills = await readCourtierSkills()
-  return <CourtierPageContent skills={skills} />
+  return (
+    <>
+      <CourtierPageContent skills={skills} />
+      <SiteFooter />
+    </>
+  )
 }

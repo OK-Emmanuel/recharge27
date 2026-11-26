@@ -1,4 +1,4 @@
-import { UserX } from "lucide-react"
+import { UserX } from "@/components/icons"
 import { initials } from "@/lib/format"
 
 // Name with an optional second line. Inline elements only: the first table column sits inside a button.

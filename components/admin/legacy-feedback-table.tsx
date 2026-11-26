@@ -1,6 +1,6 @@
 "use client"
 
-import { Star } from "lucide-react"
+import { Star } from "@/components/icons"
 import type { LegacyFeedbackKind, LegacyFeedbackRow } from "@/lib/legacy-records"
 import { formatDate, formatDateTime, timestampValue } from "@/lib/format"
 import { DataTable, type DataTableColumn, type DataTableDetail, type DataTableFilter } from "./data-table"
